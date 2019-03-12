@@ -30,3 +30,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home'); 
 Route::post('/home', 'HomeController@addTask');
 Route::get('/home/edit', 'HomeController@editTask');
+Route::get('/edit/{id}', 'HomeController@getTask');
+Route::post('/updateTask', 'HomeController@UpdateTask');
+Route::get('/createTask', 'HomeController@createNewTask');
+Route::get('/get/client/agents/{clientCode}', 'AjaxController@getclientAgents');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Task;
+use DB;
 use Auth;
 
 class HomeController extends Controller
@@ -58,23 +59,60 @@ class HomeController extends Controller
 		$user_id = Auth::user()->id;
 		$this->validate($request,[
 			'task' => 'required'
-		]); 
+		]);
+
+		//
 		$task = new Task;
 		$task->task = $request->input('task');
 		$task->author_id = Auth::user()->id;
 		$task->save();
+
 		return redirect('/home')->with('response', 'Task Added Successfully'); 
 	}
 	
 	public function editTask() 
 	{
+
 		if(isset($_GET["tid"])){
 			$id = $_GET["tid"];
 			$taskview = Task::all()->where('id', $id);
 			return view('edit', ['tasks' => $taskview,]);
 		}else{
-			return redirect('/home');
+			//get all the clients and users
+			$users = DB::table('users')->get();
+			$clients = DB::table('clients')->get();
+
+			return view::make('edit', compact('users','clients'));
+			//return redirect('/home');
 		}
-		
+
 	}
+
+	public function getTask($id)
+	{
+		//fetch data where the id is located
+		$task = DB::table('newTasks')->where('id',$id)->get();
+		$clients = DB::table('clients')->get();
+
+		return view::make('edit', compact('task','clients'));
+	}
+
+	public function createNewTask(){
+
+		//get all the clients and users
+		$users = DB::table('users')->get();
+		$clients = DB::table('clients')->get();
+		
+		return view('createTask', compact('clients','users'));
+
+	}
+
+	//update the already created task in the database
+	public function updateNewTask(Request $req){
+
+		$clients = DB::table('clients')->get();
+		return view::make('edit', compact('clients'));
+
+	}
+	
 }

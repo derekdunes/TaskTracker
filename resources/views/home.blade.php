@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row">
 		
-		<div class="col-md-7">
+<!-- 		<div class="col-md-7">
 			<div class="panel panel-default">
 				<div class="panel-heading">Task</div>
 				<div class="panel-body">
@@ -22,8 +22,9 @@
 				</div>
 			</div>
 			
-		</div>
-        <div class="col-md-5">
+		</div> -->
+
+        <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">Add Task
 			</div>
@@ -33,15 +34,47 @@
 					<div class="alert alert-success">{{ session('response') }}</div>
 				
 					@endif 	
-                  
-					<form method="POST" action="{{ url('home')}}">
-					  {{ csrf_field() }}
-					<div class="form-group input-group">
-						<input type="text" name="task" id="task" class="form-control"> <span class="input-group-btn">
-    <button type="submit"class="btn btn-default" type="button">ADD</button></span>
-					</div>
-					
-					</form>
+                  <table>
+                  	<tr>
+                  		<th>Task id</th>
+	                  	<th>Client</th>
+	                  	<th>Description/Error Message</th>
+	                  	<th>Candidate Reg/App/RRR/Confirmation No</th>
+	                  	<th>Created By</th>
+	                  	<th>Assigned to</th>
+	                  	<th>Start Time</th>
+	                  	<th>Modified Time</th>
+	                  	<th>Status</th>
+                  	</tr>
+                  	<tr>
+                  		<td><a href="">1</a></td>
+                  		<td>ABSU</td>
+                  		<td>A student cant fill the Post graduate programme</td>
+                  		<td>ESUT/2011/110473,RRR(1274390324)</td>
+                  		<td>Ugochukwu Willie</td>
+                  		<td>Biggie, Cynthia, Teecee</td>
+                  		<td>20th June 2019 20:11:15</td>
+                  		<td>45th January 2014 20:11:15</td>
+                  		<td>Pending</td>
+                  		<!-- <td>
+	    					<button type="submit"class="btn btn-default" type="button">UPDATE</button>
+	    				</td>
+	    				<td>
+	    					<button type="submit"class="btn btn-default" type="button">DELETE</button>
+	    				</td> -->
+                  	</tr>
+                  	<tr>
+                  		<td><a href="">2</a></td>
+                  		<td>ABSU</td>
+                  		<td>A student cant fill the Post graduate programme</td>
+                  		<td>ESUT/2011/110473, RRR(1274390324)</td>
+                  		<td>Tochukwu Jaycee</td>
+                  		<td>Biggie, Cynthia</td>
+                  		<td>20th June 2019 20:11:15</td>
+                  		<td>45th January 2014 20:11:15</td>
+                  		<td>Pending</td>
+                  	</tr>
+                  </table>
                 </div>
             </div>
         </div>
