@@ -12,6 +12,11 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    
+    <script src="{{ asset('js/jquery-2.1.4.min.js') }}" ></script>
+
+    @yield('scripts')
+
 </head>
 <body>
     <div id="app">

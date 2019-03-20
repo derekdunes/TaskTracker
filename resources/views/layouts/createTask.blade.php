@@ -1,11 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
+
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Register</div>
+                <div class="panel-heading">Edit Task</div>
 
                 <div class="panel-body">
 
@@ -16,7 +17,7 @@
                             <label for="name" class="col-md-4 control-label">Client</label>
 
                             <div class="col-md-6">
-                                <select id="name" type="text" class="form-control" name="name" value="{{ $value->client }}" required autofocus>
+                                <select id="name" type="text" class="form-control" name="name" value="" required autofocus>
                                 <option value="">Choose a Client</option>
                                  
                               @foreach($clients as $client)     
@@ -37,15 +38,21 @@
                             </div>
 
                         </div>
-
+                        
                         <div class="form-group">
                             <label for="name" class="col-md-4 control-label">Select the operators to mail the Issue to</label>
 
                             <div class="col-md-6">
                                 
                                 @foreach($users as $user)
-                                    <input type="checkbox" name="" value="{{ $user->email }}"> {{ $user->name }} <br>
-                                @endsection
+
+                                    @if($user->id % 2 == 0)
+                                        <input type="checkbox" name="" value="{{ $user->email }}"> {{ $user->name }} <br>
+                                    @else
+                                        <input type="checkbox" name="" value="{{ $user->email }}"> {{ $user->name }}
+                                    @endif
+
+                                @endforeach
 
                             </div>
 
@@ -57,11 +64,6 @@
                             <div class="col-md-6">
                                 <input id="description" type="text" class="form-control" name="description" value="" required>
 
-                                @if ($errors->has('description'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
                             </div>
                         </div>
 
@@ -89,4 +91,5 @@
         </div>
     </div>
 </div>
+
 @endsection

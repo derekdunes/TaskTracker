@@ -18,6 +18,10 @@ body {
   margin: 0;
 }
 
+.col-md-2 button{
+  float: right;
+}
+
 article,
 aside,
 details,
@@ -45,6 +49,31 @@ video {
 audio:not([controls]) {
   display: none;
   height: 0;
+}
+
+#red {
+  background-color: #C0392B;
+  color: #ECF0F1;
+}
+
+#yellow {
+  background-color: #F1C40F;
+  color: #ECF0F1;
+}
+
+#green {
+  background-color: #1ABC9C;
+  color: #ECF0F1;
+}
+
+.sort {
+  border-right: 1px solid blue;
+  border-top: 1px solid blue;
+  border-radius: 5px 5px 0px 0px;
+}
+
+.search {
+  float: right;
 }
 
 [hidden],
