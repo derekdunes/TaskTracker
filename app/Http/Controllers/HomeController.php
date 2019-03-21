@@ -56,7 +56,7 @@ class HomeController extends Controller
 		*To get all task added by user we need to select * task WHERE Auth user id == 
 		*/
 
-		$tasks = DB::table('newTasks')->get();
+		$tasks = DB::table('newTasks')->orderBy('created_at','DESC')->get();
 
         return view('home', compact('tasks'));
     }
@@ -74,16 +74,17 @@ class HomeController extends Controller
 		$task->author_id = Auth::user()->id;
 		$task->save();
 
-		$tasks = DB::table('newTasks')->get();
+		$tasks = DB::table('newTasks')->orderBy('created_at','DESC')->get();
 
-		return view('/home',compact('tasks'))->with('response', 'Task Added Successfully'); 
+		return redirect('/home')->with('response', 'Task Added Successfully')->with('tasks', $tasks);
+
 	}
 
 	public function findTask(Request $req){
 
 		$taskId = $req->input("id");
 
-		$tasks = DB::table('newTasks')->where('id', $taskId)->get();
+		$tasks = DB::table('newTasks')->where('id', $taskId)->orderBy('created_at', 'DESC')->get();
 
 		if (!$tasks->isEmpty()) {
 
@@ -92,7 +93,7 @@ class HomeController extends Controller
 		}else{
 
 			$message = 'Could Not Find Ticket id '. $taskId;
-			$tasks = DB::table('newTasks')->get();
+			$tasks = DB::table('newTasks')->orderBy('created_at','DESC')->get();
 
 			return redirect('/home')->with('response', $message)->with('tasks', $tasks);
 
@@ -141,47 +142,46 @@ class HomeController extends Controller
 
 		$tasks = DB::table('newTasks')->get();
 
-		return redirect('/home')->with('response', 'Task Added Successfully')->with('tasks',$tasks);
-
 		$id = DB::getPdo()->lastInsertId();
 
 		// send an email to the problemCandidate first and selected operators with the ticket id
 		//$id;
 
-	    $content = 'Hi ' . $candidateMail . ', /n' . 'An issue with the ticket ' . $id . ' has been logged. Kindly check your email for more information concerning your issues /n' . 'Thank you.';
+	    $content = 'Hi ' . $candidateMail . ', ' . 'An issue with the ticket ' . $id . ' has been logged. Kindly check your email for more information concerning your issues ' . 'Thank you.';
 
-	   $title = 'Lloydant IssueBot: Do Not Reply';
-
-	   $from = 'support@lloydant.com';
+	   $title = 'LloydantBot: Do Not Reply';
 	   
-	   Mail::send('emails.send', ['title' => $title, 'content' => $content], function ($message)
+	   Mail::send('emails.send', ['candidateMail' => $candidateMail, 'title' => $title, 'content' => $content], function ($message) use ($candidateMail)
         {
 
-            $message->from( $from, 'Lloydant Support');
+            $message->from('support@lloydant.com', 'Lloydant Support');
 
             $message->to($candidateMail);
 
         });
 
-	   $title = 'Lloydant IssueBot From TaskTracker: Do Not Reply';
+	   $title = 'LloydantBot: Do Not Reply';
 
-	   $content = 'A '. $status . ' issue from our client ' . $client .' with the ticket no ' . $id . ' has been logged and assigned to you by ' . $user->name . '. Kindly check the taskTracker app for more information on how to solve issue /n' . 'Thank you.';
+	   $content = 'A '. $status . ' issue from our client ' . $client .' with the ticket no ' . $id . ' has been logged and assigned to you by ' . $user->name . '. Kindly check the taskTracker app for more information on how to solve issue ' . 'Thank you.';
 
 		foreach ($operators as $operator) {
 			
 			//send the mail to all the operators involved and use the id
 
-			Mail::send('emails.send', ['title' => $title, 'content' => $content], function ($message)
-        	{
+		Mail::send('emails.send', ['operator' => $operator, 'title' => $title, 'content' => $content], function ($message) use ($operator)
+        {
 
-            	$message->from( $from, 'Lloydant Support');
+            $message->from('support@lloydant.com', 'Lloydant Support');
 
-	            $message->to($operator);
+            $message->to($operator);
 
-    	    });
+        });
 
 
 		}
+
+		return redirect('/home')->with('response', 'Task Added Successfully')->with('tasks',$tasks);
+
 
 	}
 
@@ -204,7 +204,7 @@ class HomeController extends Controller
 
 		}
 
-		$data=array("client"=>$client,"problem_description"=>$description,"addition_info"=>$details,"problem_candidate"=>$candidateMail,"assigned_to"=>$concatOperator,"status"=>$status,"modified_by"=>$user->name,"updated_at"=>NOW());
+		$data = array("client"=>$client,"problem_description"=>$description,"addition_info"=>$details,"problem_candidate"=>$candidateMail,"assigned_to"=>$concatOperator,"status"=>$status,"modified_by"=>$user->name,"updated_at"=>NOW());
 
 		Db::table('newTasks')->where('id', $id)->update($data);
 		$tasks = DB::table('newTasks')->get();
@@ -216,40 +216,47 @@ class HomeController extends Controller
 		// send an email to the problemCandidate first and selected operators with the ticket id
 		//$id;
 
-	    $content = 'Hi ' . $candidateMail . ', /n' . 'An issue with the ticket ' . $id . ' has been logged. Kindly check your email for more information concerning your issues /n' . 'Thank you.';
+		if ($status == 'resolved') {
+			# send mail to the user that the issue has been 
 
-	   $title = 'Lloydant IssueBot: Do Not Reply';
+			$content = 'Hi ' . $candidateMail . ', ' . 'the issue you complained about have been solved by our operators ' . 'Thank you.';
 
-	   
-	   Mail::send('emails.send', ['candidate' => $candidateMail, 'title' => $title, 'content' => $content], function ($message) use ($candidateMail)
-        {
+		   $title = 'LloydantBot: Do Not Reply';
 
-            $message->from( 'support@lloydant.com', 'Lloydant Support');
+		   
+		   Mail::send('emails.send', ['candidate' => $candidateMail, 'title' => $title, 'content' => $content], function ($message) use ($candidateMail)
+	        {
 
-            $message->to($candidateMail);
+	            $message->from( 'support@lloydant.com', 'Lloydant Support');
 
-        });
+	            $message->to($candidateMail);
 
-	   return redirect('/home')->with('response', 'Task Updated Successfully')->with('tasks',$tasks);
-
-	   $title = 'Lloydant IssueBot From TaskTracker: Do Not Reply';
-
-	   $content = 'A '. $status . ' issue from our client ' . $client .' with the ticket no ' . $id . ' has been logged and assigned to you by ' . $user->name . '. Kindly check the taskTracker app for more information on how to solve issue /n' . 'Thank you.';
-
-		foreach ($operators as $operator) {
-			
-			//send the mail to all the operators involved and use the id
-
-			Mail::send('emails.send', [ 'operator' => $operator , 'title' => $title, 'content' => $content], function ($message) use ($operator)
-        	{
-
-            	$message->from( 'support@lloydant.com', 'Lloydant Support');
-
-	            $message->to($operator);
-
-    	    });
+	        });
 
 		}
+	    
+
+	 //   $title = 'Lloydant IssueBot From TaskTracker: Do Not Reply';
+
+	 //   $content = 'A '. $status . ' issue from our client ' . $client .' with the ticket no ' . $id . ' has been logged and assigned to you by ' . $user->name . '. Kindly check the taskTracker app for more information on how to solve issue ' . 'Thank you.';
+
+		// foreach ($operators as $operator) {
+			
+		// 	//send the mail to all the operators involved and use the id
+
+		// 	Mail::send('emails.send', [ 'operator' => $operator , 'title' => $title, 'content' => $content], function ($message) use ($operator)
+  //       	{
+
+  //           	$message->from( 'support@lloydant.com', 'Lloydant Support');
+
+	 //            $message->to($operator);
+
+  //   	    });
+
+		// }
+
+		return redirect('/home')->with('response', 'Task Updated Successfully')->with('tasks',$tasks);
+
 	}
 
 	public function deleteTask($id){
@@ -259,6 +266,7 @@ class HomeController extends Controller
 		$tasks = DB::table('newTasks')->get();
 
 		return redirect('/home')->with('response', 'Task Deleted Successfully')->with('tasks',$tasks);
+
 	}
 
 	public function sortByStatus(){
@@ -295,19 +303,6 @@ class HomeController extends Controller
 		$tasks = DB::table('newTasks')->orderBy('updated_at','DESC')->get();
 
 		return view('/home',compact('tasks'));		
-	}
-
-	public static function sendMail($title, $content, $to, $from ){
-
-		Mail::send('emails.send', ['title' => $title, 'content' => $content], function ($message)
-        {
-
-            $message->from( $from, 'Lloydant Support');
-
-            $message->to($to);
-
-        });
-
 	}
 
 	public function getTask($id)
