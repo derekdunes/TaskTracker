@@ -26,7 +26,7 @@ class multiSeeder extends Seeder
           [
           	'client_code' => 'ILARO',
           	'client_name' => 'UNIVERSITY OF ILLORIN'          	
-          ]
+          ],
         ];
 
 

@@ -123,6 +123,7 @@ class HomeController extends Controller
 		$client = $req->input("client");
 		$candidateMail = $req->input("candidateMail");
 		$operators = $req->input("operator");
+		$stopDate = $req->input("stop_date");
 		$description = $req->input("description");
 		$details = $req->input("details");
 		$status = $req->input("status");
@@ -136,7 +137,7 @@ class HomeController extends Controller
 
 		}
 
-		$data=array("client"=>$client,"problem_description"=>$description,"addition_info"=>$details,"problem_candidate"=>$candidateMail,"assigned_to"=>$concatOperator,"status"=>$status,"created_by"=>$user->name,"created_at"=>NOW());
+		$data=array("client"=>$client,"problem_description"=>$description,"addition_info"=>$details,"problem_candidate"=>$candidateMail,"assigned_to"=>$concatOperator,"status"=>$status,"created_by"=>$user->name,"stop_date"=>$stopDate,"created_at"=>NOW());
 
 		Db::table('newTasks')->insert($data);
 
@@ -191,6 +192,7 @@ class HomeController extends Controller
 		$client = $req->input("client");
 		$candidateMail = $req->input("candidateMail");
 		$operators = $req->input("operator");
+		$stopDate = $req->input("stop_date");
 		$description = $req->input("description");
 		$details = $req->input("details");
 		$status = $req->input("status");
@@ -204,7 +206,9 @@ class HomeController extends Controller
 
 		}
 
-		$data = array("client"=>$client,"problem_description"=>$description,"addition_info"=>$details,"problem_candidate"=>$candidateMail,"assigned_to"=>$concatOperator,"status"=>$status,"modified_by"=>$user->name,"updated_at"=>NOW());
+		$data = array("client"=>$client,"problem_description"=>$description,"addition_info"=>$details,"problem_candidate"=>$candidateMail,"assigned_to"=>$concatOperator,"status"=>$status,"modified_by"=>$user->name,"stop_date"=>$stopDate,"updated_at"=>NOW());
+
+		return $data;
 
 		Db::table('newTasks')->where('id', $id)->update($data);
 		$tasks = DB::table('newTasks')->get();

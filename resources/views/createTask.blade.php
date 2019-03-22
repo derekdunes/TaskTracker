@@ -59,6 +59,15 @@
                         </div>
 
                         <div class="form-group">
+                            <label for="date" class="col-md-4 control-label">Expiring Date</label>
+
+                            <div class="col-md-6">
+                                <input id="date" type="date" class="form-control" name="stop_date" required>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
                             <label for="status" class="col-md-4 control-label">Problem Status</label>
 
                             <div class="col-md-6">

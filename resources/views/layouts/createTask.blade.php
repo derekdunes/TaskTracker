@@ -6,18 +6,18 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Edit Task</div>
+                <div class="panel-heading">Create Task</div>
 
                 <div class="panel-body">
 
-                    <form class="form-horizontal" method="POST" action="/updateTask">
+                    <form class="form-horizontal" method="POST" action="/creatingTask">
                         {{ csrf_field() }}
 
                         <div class="form-group">
-                            <label for="name" class="col-md-4 control-label">Client</label>
+                            <label for="client" class="col-md-4 control-label">Client</label>
 
                             <div class="col-md-6">
-                                <select id="name" type="text" class="form-control" name="name" value="" required autofocus>
+                                <select type="text" class="form-control" name="client" id="client" value="" required autofocus>
                                 <option value="">Choose a Client</option>
                                  
                               @foreach($clients as $client)     
@@ -28,15 +28,15 @@
                               
                               </select>
                             </div>
+
                         </div>
 
                         <div class="form-group">
-                            <label for="name" class="col-md-4 control-label">Candidate's Email</label>
+                            <label for="candidateMail" class="col-md-4 control-label">Candidate Email</label>
 
                             <div class="col-md-6">
-                                <input type="text" name="candidateMail" value="">  <br>
+                                <input id="candidateMail" type="candidateMail" class="form-control" name="candidateMail" required>
                             </div>
-
                         </div>
                         
                         <div class="form-group">
@@ -47,15 +47,39 @@
                                 @foreach($users as $user)
 
                                     @if($user->id % 2 == 0)
-                                        <input type="checkbox" name="" value="{{ $user->email }}"> {{ $user->name }} <br>
+                                        <input type="checkbox" name="operator[]" value="{{ $user->email }}"> {{ $user->name }} <br>
                                     @else
-                                        <input type="checkbox" name="" value="{{ $user->email }}"> {{ $user->name }}
+                                        <input type="checkbox" name="operator[]" value="{{ $user->email }}"> {{ $user->name }}
                                     @endif
 
                                 @endforeach
 
                             </div>
 
+                        </div>
+
+                        <div class="form-group">
+                            <label for="date" class="col-md-4 control-label">Expiring Date</label>
+
+                            <div class="col-md-6">
+                                <input id="date" type="date" class="form-control" name="stop_date" required>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label for="status" class="col-md-4 control-label">Problem Status</label>
+
+                            <div class="col-md-6">
+                                <select id="status" type="text" class="form-control" name="status" required autofocus>
+                                    <option value="" >Choose Case Status</option>        
+                                    <option id="red" value="pending">Pending</option>
+                                    <option id="yellow" value="progress">In Progress</option>
+                                    <option id="green" value="resolved">Resolved</option>
+                              
+                                </select>
+                            </div>
+                            
                         </div>
 
                         <div class="form-group">
@@ -78,10 +102,7 @@
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary">
-                                    Update
-                                </button>
-                                <button type="submit" class="btn btn-primary">
-                                    Delete
+                                    Create
                                 </button>
                             </div>
                         </div>

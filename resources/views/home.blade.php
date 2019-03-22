@@ -76,7 +76,7 @@
 	                  	<th>Reg/App/RRR/Confirmation No</th>
 	                  	<th>Created By</th>
 	                  	<th>Assigned to</th>
-	                  	<th>Start Time</th>
+	                  	<th>Expiring Date</th>
 	                  	<th>Status</th>
 	                  	<th>View Ticket</th>
                   	</tr>
@@ -90,7 +90,7 @@
                   			<td>{{ $task->addition_info }}</td>
                   			<td>{{ $task->created_by }}</td>
                   			<td> {{ $task->assigned_to }} </td>
-                  			<td>{{ $task->created_at }}</td>
+                  			<td>{{ $task->stop_date }}</td>
 
                   			@if($task->status == 'pending')
 	                  			<td id="red">
