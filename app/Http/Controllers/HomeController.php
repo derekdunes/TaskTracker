@@ -163,7 +163,7 @@ class HomeController extends Controller
 
 	   $title = 'LloydantBot: Do Not Reply';
 
-	   $content = 'A '. $status . ' issue from our client ' . $client .' with the ticket no ' . $id . ' has been logged and assigned to you by ' . $user->name . '. Kindly check the taskTracker app for more information on how to solve issue ' . 'Thank you.';
+	   $content = 'A '. $status . ' issue from our client ' . $client .' with the ticket no ' . $id . ' has been logged and assigned to you by ' . $user->name . '. Kindly follow the link for more information on the issue ' . 'Thank you.';
 
 		foreach ($operators as $operator) {
 			
@@ -207,8 +207,6 @@ class HomeController extends Controller
 		}
 
 		$data = array("client"=>$client,"problem_description"=>$description,"addition_info"=>$details,"problem_candidate"=>$candidateMail,"assigned_to"=>$concatOperator,"status"=>$status,"modified_by"=>$user->name,"stop_date"=>$stopDate,"updated_at"=>NOW());
-
-		return $data;
 
 		Db::table('newTasks')->where('id', $id)->update($data);
 		$tasks = DB::table('newTasks')->get();
