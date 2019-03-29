@@ -82,9 +82,9 @@ class HomeController extends Controller
 
 	public function findTask(Request $req){
 
-		$taskId = $req->input("id");
+		$task = $req->input("id");
 
-		$tasks = DB::table('newTasks')->where('id', $taskId)->orderBy('created_at', 'DESC')->get();
+		$tasks = DB::table('newTasks')->where('id', $task)->orWhere('client',$task)->orWhere('status',$task)->orderBy('created_at', 'DESC')->get();
 
 		if (!$tasks->isEmpty()) {
 
@@ -92,7 +92,7 @@ class HomeController extends Controller
 		
 		}else{
 
-			$message = 'Could Not Find Ticket id '. $taskId;
+			$message = 'Could Not Find Ticket id '. $task;
 			$tasks = DB::table('newTasks')->orderBy('created_at','DESC')->get();
 
 			return redirect('/home')->with('response', $message)->with('tasks', $tasks);
@@ -126,7 +126,6 @@ class HomeController extends Controller
 		$stopDate = $req->input("stop_date");
 		$description = $req->input("description");
 		$details = $req->input("details");
-		$status = $req->input("status");
 
 		$concatOperator = '';
 
@@ -137,7 +136,7 @@ class HomeController extends Controller
 
 		}
 
-		$data=array("client"=>$client,"problem_description"=>$description,"addition_info"=>$details,"problem_candidate"=>$candidateMail,"assigned_to"=>$concatOperator,"status"=>$status,"created_by"=>$user->name,"stop_date"=>$stopDate,"created_at"=>NOW());
+		$data=array("client"=>$client,"problem_description"=>$description,"addition_info"=>$details,"problem_candidate"=>$candidateMail,"assigned_to"=>$concatOperator,"created_by"=>$user->name,"stop_date"=>$stopDate,"created_at"=>NOW());
 
 		Db::table('newTasks')->insert($data);
 

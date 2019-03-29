@@ -25,7 +25,11 @@ class multiSeeder extends Seeder
           ],
           [
           	'client_code' => 'ILARO',
-          	'client_name' => 'UNIVERSITY OF ILLORIN'          	
+          	'client_name' => 'FEDERAL POLYTECHNIC ILARO'          	
+          ],
+          [
+            'client_code' => 'ABSCOTECH(COHA)',
+            'client_name' => 'ABIA STATE COLLEGE OF HEALTH ABA'            
           ],
         ];
 

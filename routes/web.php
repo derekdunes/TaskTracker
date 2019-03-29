@@ -29,7 +29,7 @@ Route::get('/', 'HomeController@welcome');
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home'); 
 Route::post('/home', 'HomeController@addTask');
-Route::post('/findTicket', 'HomeController@findTask');
+Route::post('/SearchBy', 'HomeController@findTask');
 Route::get('/view/{id}', 'HomeController@viewTask');
 Route::get('/edit/{id}', 'HomeController@editTask');
 Route::get('/delete/{id}', 'HomeController@deleteTask');

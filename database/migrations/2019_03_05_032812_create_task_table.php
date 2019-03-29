@@ -22,7 +22,7 @@ class CreateTaskTable extends Migration
             $table->text('addition_info');
             $table->text('problem_candidate');
             $table->text('assigned_to');
-            $table->string('status');
+            $table->string('status')->default('pending');
             $table->string('stop_date');
             $table->string('created_by')->nullable();
             $table->string('modified_by')->nullable();

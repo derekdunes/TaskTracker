@@ -45,14 +45,14 @@
 					<a href="/sortby/lastmodified">Modified</a>
 				</div>
 
-				<form class="form-horizontal" method="POST" action="/findTicket">
+				<form class="form-horizontal" method="POST" action="/SearchBy">
                         {{ csrf_field() }}
 
                         <div class="form-group">
                             <div class="col-md-6">
-                                <input type="text" placeholder="Find Ticket Id" name="id">
+                                <input type="text" placeholder="Find Student Name, Client,Ticket Id" name="id">
                                 <button type="submit" class="btn btn-primary">
-			                        Find Ticket
+			                        Search
 			                    </button>
                             </div>
 

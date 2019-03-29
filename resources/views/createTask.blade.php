@@ -68,21 +68,6 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="status" class="col-md-4 control-label">Problem Status</label>
-
-                            <div class="col-md-6">
-                                <select id="status" type="text" class="form-control" name="status" required autofocus>
-                                    <option value="" >Choose Case Status</option>        
-                                    <option id="red" value="pending">Pending</option>
-                                    <option id="yellow" value="progress">In Progress</option>
-                                    <option id="green" value="resolved">Resolved</option>
-                              
-                                </select>
-                            </div>
-                            
-                        </div>
-
-                        <div class="form-group">
                             <label for="description" class="col-md-4 control-label">Description/Error Message</label>
 
                             <div class="col-md-6">
